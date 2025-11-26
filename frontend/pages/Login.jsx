@@ -22,8 +22,8 @@ export default function Login() {
   return (
     <div className="signin-page">
       <div className="signin-panel">
-        <h2>Sign In</h2>
         <form onSubmit={onSubmit} className="form">
+          <h2>Sign In</h2>
           <label>Email Address</label>
           <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="you@example.com" />
           <label>Password</label>
@@ -34,9 +34,6 @@ export default function Login() {
           {error && <div className="error">{error}</div>}
           <button className="btn primary" type="submit">Continue</button>
         </form>
-        <div className="split-actions">
-          <button className="btn" onClick={() => nav("/register")}>Register</button>
-        </div>
       </div>
     </div>
   )

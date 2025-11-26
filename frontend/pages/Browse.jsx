@@ -61,7 +61,7 @@ export default function Browse() {
       ) : (
         <div className="carousel-section">
           <div className="section-header">
-            <h3>Books We Love</h3>
+            <h3>Recently Added</h3>
           </div>
           <div className="carousel">
             <button className="carousel-arrow left" onClick={() => { if (scrollEl) scrollEl.scrollBy({ left: -((scrollEl.clientWidth) - 60), behavior: 'smooth' }) }}>

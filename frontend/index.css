@@ -58,18 +58,19 @@ img { max-width: 100%; display: block }
 .split-actions { display: flex; justify-content: center; margin-top: 10px }
 
 .dashboard { max-width: 1100px; margin: 24px auto; padding: 16px 20px; background: rgba(255,250,240,0.85); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 8px 24px rgba(139,94,60,0.12); position: relative; overflow: hidden }
-.dashboard::before { content: ""; position: absolute; top: -80px; right: -60px; width: 320px; height: 320px; background: radial-gradient(ellipse at center, rgba(176,123,89,0.12) 0%, rgba(176,123,89,0.0) 70%); border-radius: 50%; filter: blur(2px); transform: translateY(0); animation: dashBlob 16s ease-in-out infinite alternate }
-.dashboard::after { content: ""; position: absolute; bottom: -80px; left: -60px; width: 280px; height: 280px; background: radial-gradient(ellipse at center, rgba(139,94,60,0.10) 0%, rgba(139,94,60,0.0) 70%); border-radius: 50%; filter: blur(2px); transform: translateY(0); animation: dashBlob2 18s ease-in-out infinite alternate }
-@keyframes dashBlob { from { transform: translateY(0) scale(1) } to { transform: translateY(10px) scale(1.05) } }
-@keyframes dashBlob2 { from { transform: translateY(0) scale(1) } to { transform: translateY(-8px) scale(1.03) } }
+.dashboard::before { content: none }
+.dashboard::after { content: none }
 .dashboard { animation: fadeUp .4s ease both }
 .dashboard h2 { margin: 0 0 12px; -webkit-text-stroke: 0.3px rgba(27,24,18,0.25); text-shadow: -0.6px -0.6px 0 rgba(27,24,18,0.15), 0.6px -0.6px 0 rgba(27,24,18,0.15), -0.6px 0.6px 0 rgba(27,24,18,0.15), 0.6px 0.6px 0 rgba(27,24,18,0.15) }
 .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px }
+.grid.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) }
 .grid input, .grid textarea, .grid .btn { width: 100% }
 .grid .span-2 { grid-column: span 2 }
 .grid .col-3 { grid-column: 3 }
 .grid textarea { grid-column: span 3 }
 .grid .btn { grid-column: span 3 }
+.grid.grid-2 textarea { grid-column: span 2 }
+.grid.grid-2 .btn { grid-column: span 2 }
 .grid input:focus, .grid textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(139,94,60,0.15) }
 /* Align numeric values to the end of the field */
 .grid input[type="number"] { text-align: right }
@@ -81,13 +82,14 @@ img { max-width: 100%; display: block }
 .search-row:focus-within { box-shadow: 0 0 0 3px rgba(139,94,60,0.15) }
 .pill-select { appearance: none; border: 1px solid var(--border); background: #fff5e6; color: var(--text); padding: 10px 14px; border-radius: 9999px }
 .pill-select:focus { outline: none; box-shadow: 0 0 0 3px rgba(139,94,60,0.15) }
-.book-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px }
+.book-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px }
 .book-item { background: rgba(255,250,240,0.85); border: 1px solid #8b5e3c; border-radius: 14px; padding: 12px; display: grid; gap: 10px; transition: transform .15s ease, box-shadow .15s ease }
-.item-body { display: flex; gap: 12px; align-items: center }
+.item-body { display: flex; flex-direction: column; gap: 10px; align-items: center }
+.book-meta { width: 100%; text-align: left }
 .book-item:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(139,94,60,0.28) }
-.book-item img { width: 64px; height: 96px; object-fit: cover; border-radius: 8px; border: 1px solid #8b5e3c }
+.book-item img { width: 160px; height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid #8b5e3c }
 .book-item img { transition: transform .2s ease, box-shadow .2s ease, filter .15s ease }
-.book-item img:hover { transform: scale(1.03); box-shadow: 0 10px 24px rgba(139,94,60,0.25); border-color: #b07b59 }
+.book-item img:hover { transform: scale(1.02); box-shadow: 0 10px 24px rgba(139,94,60,0.25); border-color: #b07b59 }
 .book-meta h3 { margin: 0 0 4px; -webkit-text-stroke: 0.3px rgba(27,24,18,0.25); text-shadow: -0.6px -0.6px 0 rgba(27,24,18,0.15), 0.6px -0.6px 0 rgba(27,24,18,0.15), -0.6px 0.6px 0 rgba(27,24,18,0.15), 0.6px 0.6px 0 rgba(27,24,18,0.15) }
 .book-meta p { margin: 0; color: #3f372f }
 
@@ -98,21 +100,26 @@ img { max-width: 100%; display: block }
 /* removed modal zoom styles */
 
 .stats { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px }
-.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; box-shadow: 0 8px 24px rgba(139,94,60,0.12); text-align: center; transition: transform .15s ease, box-shadow .15s ease; animation: fadeUp .5s ease both }
-.stat-card:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(139,94,60,0.2) }
-.stat-card h4 { margin: 0 0 6px }
-.stat-card p { margin: 0; font-weight: 700 }
+.stat-card { position: relative; overflow: hidden; background: linear-gradient(135deg, #fffaf0 0%, #fbead6 55%, #f6dfc9 100%); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px; box-shadow: 0 12px 28px rgba(139,94,60,0.16); text-align: center; transition: transform .18s ease, box-shadow .18s ease; animation: fadeUp .5s ease both }
+.stat-card:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 18px 40px rgba(139,94,60,0.24) }
+.stat-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.0) 100%); transform: translateX(-120%); animation: shine 3s ease-in-out infinite }
+.stat-card h4 { margin: 0 0 6px; letter-spacing: .4px }
+.stat-card h4::before { content: "📚"; margin-right: 8px }
+.stat-card p { margin: 0; font-weight: 800; font-size: 1.6rem; color: #8b5e3c }
 
 .form input::placeholder, .form textarea::placeholder { color: #7a6f60 }
 .ghost { background: transparent; border: 1px solid var(--border); color: var(--text) }
 .loading { color: var(--muted) }
 
-.delete-btn { padding: 8px 12px; border-radius: 9999px; border: 0; background: linear-gradient(90deg, var(--primary), var(--primary-2)); color: #fff; box-shadow: 0 8px 20px rgba(139,94,60,0.25); transition: transform .15s ease, box-shadow .15s ease, filter .15s ease; margin-left: auto }
+.delete-btn { padding: 8px 12px; border-radius: 9999px; border: 0; background: linear-gradient(90deg, var(--primary), var(--primary-2)); color: #fff; box-shadow: 0 8px 20px rgba(139,94,60,0.25); transition: transform .15s ease, box-shadow .15s ease, filter .15s ease; margin-left: 0 }
 .delete-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(139,94,60,0.3); filter: brightness(1.06) }
 .delete-btn:active { transform: scale(0.98) }
-.item-actions { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(140px, 180px); gap: 10px; justify-content: center; align-items: center }
-.item-actions .delete-btn, .item-actions .stack-btn { width: 100%; text-align: center }
-.item-actions .delete-btn, .item-actions .stack-btn { text-transform: uppercase; font-weight: 600; letter-spacing: .4px; font-size: .95rem }
+.item-actions { display: flex; flex-direction: column; gap: 10px; justify-content: center; align-items: center }
+.item-actions .delete-btn, .item-actions .stack-btn, .item-actions .edit-btn { width: 100%; text-align: center }
+.item-actions .delete-btn, .item-actions .stack-btn, .item-actions .edit-btn { text-transform: uppercase; font-weight: 600; letter-spacing: .4px; font-size: .95rem }
+.edit-btn { padding: 8px 12px; border-radius: 9999px; border: 0; background: linear-gradient(90deg, var(--primary), var(--primary-2)); color: #fff; box-shadow: 0 8px 20px rgba(139,94,60,0.25); transition: transform .15s ease, box-shadow .15s ease, filter .15s ease }
+.edit-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(139,94,60,0.3); filter: brightness(1.06) }
+.edit-btn:active { transform: scale(0.98) }
 .stack-btn { padding: 8px 12px; border-radius: 9999px; border: 0; background: linear-gradient(90deg, var(--primary), var(--primary-2)); color: #fff; box-shadow: 0 8px 20px rgba(139,94,60,0.25); transition: transform .15s ease, box-shadow .15s ease, filter .15s ease }
 .stack-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(139,94,60,0.3); filter: brightness(1.06) }
 .stack-btn:active { transform: scale(0.98) }
@@ -120,7 +127,7 @@ img { max-width: 100%; display: block }
 @media (max-width: 860px) {
   .grid { grid-template-columns: 1fr }
   .grid .span-2, .grid .col-3 { grid-column: auto }
-  .book-list { grid-template-columns: 1fr }
+  .book-list { grid-template-columns: repeat(2, minmax(0, 1fr)) }
   .features { grid-template-columns: 1fr }
 }
 .features { max-width: 1100px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px }

@@ -14,16 +14,7 @@ export default function Landing() {
           </div>
         </div>
       </section>
-      <section className="features">
-        <div className="feature-card">
-          <h3>Browse</h3>
-          <p>Find titles fast with a focused search.</p>
-        </div>
-        <div className="feature-card">
-          <h3>Manage</h3>
-          <p>Admins add books and track stacks remaining.</p>
-        </div>
-      </section>
+      
     </>
   )
 }

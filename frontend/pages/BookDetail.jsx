@@ -22,23 +22,14 @@ export default function BookDetail() {
   }, [id])
 
   const goBack = () => {
-    if (window.history.length > 2) {
-      nav(-1)
-      return
-    }
     if (user?.role === 'admin') {
       nav('/admin')
     } else {
-      nav('/')
+      nav('/browse')
     }
   }
 
   
-
-  const read = () => {
-    const el = mainRef.current
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
 
   if (loading) return <div className="loading">Loading…</div>
   if (!book) return <div className="error">Not found</div>
@@ -51,11 +42,10 @@ export default function BookDetail() {
           {book.coverUrl && (
             <img src={book.coverUrl} alt="" className="detail-cover" />
           )}
-            <div className="detail-actions">
-              <button className="btn primary" onClick={goBack}>Back</button>
-              <button className="btn" type="button" onClick={read}>Read</button>
-              
-            </div>
+          <div className="detail-actions">
+            <button className="btn primary" onClick={goBack}>Back</button>
+            
+          </div>
           <div className="detail-meta">
             
           </div>
