@@ -119,4 +119,35 @@ router.get("/users", auth, requireRole("admin"), async (req, res) => {
   res.json(list)
 })
 
+router.put("/users/:id", auth, requireRole("admin"), async (req, res) => {
+  const name = typeof req.body.name === "string" ? req.body.name.trim() : ""
+  if (!name) return res.status(400).json({ error: "missing_fields" })
+  try {
+    if (dbReady()) {
+      const u = await User.findByIdAndUpdate(req.params.id, { name }, { new: true })
+      if (!u) return res.status(404).json({ error: "not_found" })
+      return res.json({ id: u._id, name: u.name, email: u.email, role: u.role, lastLoginAt: u.lastLoginAt, createdAt: u.createdAt })
+    }
+  } catch { void 0 }
+  const i = memoryUsers.findIndex((x) => String(x.id) === String(req.params.id))
+  if (i === -1) return res.status(404).json({ error: "not_found" })
+  memoryUsers[i].name = name
+  const m = memoryUsers[i]
+  res.json({ id: m.id, name: m.name, email: m.email, role: m.role, lastLoginAt: m.lastLoginAt || null, createdAt: null })
+})
+
+router.delete("/users/:id", auth, requireRole("admin"), async (req, res) => {
+  try {
+    if (dbReady()) {
+      const del = await User.findByIdAndDelete(req.params.id)
+      if (!del) return res.status(404).json({ error: "not_found" })
+      return res.json({ ok: true })
+    }
+  } catch { void 0 }
+  const i = memoryUsers.findIndex((x) => String(x.id) === String(req.params.id))
+  if (i === -1) return res.status(404).json({ error: "not_found" })
+  memoryUsers.splice(i, 1)
+  res.json({ ok: true })
+})
+
 export default router

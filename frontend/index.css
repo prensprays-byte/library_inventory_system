@@ -25,8 +25,11 @@ img { max-width: 100%; display: block }
 .hero-bg { position: absolute; inset: -20% -10% -10% -10%; background: radial-gradient(800px 400px at 20% 20%, rgba(176,123,89,0.25), transparent), radial-gradient(700px 400px at 80% 20%, rgba(139,94,60,0.2), transparent); transform: translateY(0); animation: bgFloat 10s ease-in-out infinite alternate }
 .hero-content { position: relative; z-index: 1; animation: fadeUp .7s ease both }
 .hero-title { font-size: clamp(2rem, 6vw, 4rem); margin: 0 0 10px; -webkit-text-stroke: 0.5px rgba(27,24,18,0.25); text-shadow: -0.8px -0.8px 0 rgba(27,24,18,0.15), 0.8px -0.8px 0 rgba(27,24,18,0.15), -0.8px 0.8px 0 rgba(27,24,18,0.15), 0.8px 0.8px 0 rgba(27,24,18,0.15); animation: titlePulse 6s ease-in-out infinite }
+.title-gradient { background: linear-gradient(90deg, #8b5e3c, #b07b59, #f6ad55); -webkit-background-clip: text; background-clip: text; color: transparent }
 .hero-sub { color: #3f372f; margin: 0 0 24px }
-.hero-actions { display: flex; gap: 12px; justify-content: center }
+.hero-actions { display: flex; gap: 12px; justify-content: center; margin-bottom: 10px }
+.hero-badges { display: flex; gap: 10px; justify-content: center }
+.badge { background: linear-gradient(90deg, #fff5e6, #ffe8c7); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 9999px; box-shadow: 0 6px 16px rgba(139,94,60,0.12) }
 
 @keyframes bgFloat { from { transform: translateY(0) scale(1) } to { transform: translateY(-12px) scale(1.02) } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(12px) } to { opacity: 1; transform: translateY(0) } }
@@ -176,6 +179,20 @@ img { max-width: 100%; display: block }
 @keyframes modalIn { from { opacity: 0; transform: translateY(8px) scale(0.98) } to { opacity: 1; transform: translateY(0) scale(1) } }
 
 .btn.primary { position: relative; overflow: hidden }
+
+/* table styles */
+.table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; box-shadow: 0 8px 24px rgba(139,94,60,0.12); overflow: auto }
+.data-table { width: 100%; border-collapse: collapse; min-width: 600px }
+.data-table thead th { background: #fff5e6; color: var(--text); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); position: sticky; top: 0 }
+.data-table tbody td { padding: 10px 12px; border-bottom: 1px solid var(--border) }
+.data-table tr:hover { background: rgba(255,250,240,0.6) }
+.user-actions { display: inline-flex; align-items: center; gap: 8px }
+.role-pill { background: #fff5e6; border: 1px solid var(--border); border-radius: 9999px; padding: 4px 10px; font-weight: 600 }
+.user-rename-btn { padding: 6px 10px; border-radius: 9999px; border: 0; background: linear-gradient(90deg, #fbd38d, #f6ad55); color: #2d1600; box-shadow: 0 6px 16px rgba(246,173,85,0.25); cursor: pointer }
+.user-rename-btn:hover { filter: brightness(1.05) }
+.user-delete-btn { padding: 6px 10px; border-radius: 9999px; border: 0; background: linear-gradient(90deg, #f56565, #e53e3e); color: #fff; box-shadow: 0 6px 16px rgba(229,62,62,0.25); cursor: pointer }
+.user-delete-btn:hover { filter: brightness(1.05) }
+.user-rename-btn:disabled, .user-delete-btn:disabled { opacity: .7; cursor: not-allowed }
 .btn.primary::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.0) 100%); transform: translateX(-100%); animation: shine 2.4s ease-in-out infinite }
 @keyframes shine { from { transform: translateX(-120%) } 50% { transform: translateX(0) } to { transform: translateX(120%) } }
 

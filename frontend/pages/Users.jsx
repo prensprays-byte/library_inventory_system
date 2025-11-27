@@ -6,6 +6,7 @@ export default function Users() {
   const { user } = useAuth()
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
+  const [savingId, setSavingId] = useState("")
   const load = () => {
     setLoading(true)
     client.get("/auth/users").then((r) => { setItems(r.data); setLoading(false) }).catch(() => setLoading(false))
@@ -17,20 +18,55 @@ export default function Users() {
       {loading ? (
         <div className="loading">Loading…</div>
       ) : (
-        <ul className="book-list">
-          {items.map((u) => (
-            <li key={u.id} className="book-item">
-              <div className="item-body">
-                <div className="book-meta">
-                  <h3>{u.email}</h3>
-                  <p>{u.name}</p>
-                  <p>{u.role}</p>
-                  <p>{u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString() : "Never"}</p>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="table-wrap">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((u) => (
+                <tr key={u.id}>
+                  <td>{u.email}</td>
+                  <td>{u.name}</td>
+                  <td>
+                    <div className="user-actions">
+                      <span className="role-pill">{u.role}</span>
+                      <button
+                        className="user-rename-btn"
+                        disabled={savingId === u.id}
+                        onClick={async () => {
+                          const next = window.prompt("Rename user", u.name)
+                          if (!next || !next.trim()) return
+                          try {
+                            setSavingId(u.id)
+                            await client.put(`/auth/users/${u.id}`, { name: next.trim() })
+                            setItems(items.map((it) => it.id === u.id ? { ...it, name: next.trim() } : it))
+                          } finally { setSavingId("") }
+                        }}
+                      >Rename</button>
+                      <button
+                        className="user-delete-btn"
+                        disabled={savingId === u.id}
+                        onClick={async () => {
+                          if (!window.confirm(`Delete ${u.email}?`)) return
+                          try {
+                            setSavingId(u.id)
+                            await client.delete(`/auth/users/${u.id}`)
+                            setItems(items.filter((it) => it.id !== u.id))
+                          } finally { setSavingId("") }
+                        }}
+                      >Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   )
