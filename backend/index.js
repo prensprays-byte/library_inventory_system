@@ -39,6 +39,7 @@ app.get("/.well-known/appspecific/com.chrome.devtools.json", (req, res) => {
 const frontendDir = path.resolve(__dirname, "../dist")
 const indexPath = path.join(frontendDir, "index.html")
 if (fs.existsSync(frontendDir)) app.use(express.static(frontendDir))
+app.get("/favicon.ico", (req, res) => { res.status(204).end() })
 app.get("/", (req, res) => {
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath)
