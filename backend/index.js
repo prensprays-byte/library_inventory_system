@@ -4,6 +4,7 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 import path from "path"
 import { fileURLToPath } from "url"
+import fs from "fs"
 import authRoutes from "./routes/auth.js"
 import adminBookRoutes from "./routes/books.js"
 import publicBookRoutes from "./routes/books.public.js"
@@ -36,9 +37,14 @@ app.get("/.well-known/appspecific/com.chrome.devtools.json", (req, res) => {
 })
 
 const frontendDir = path.resolve(__dirname, "../dist")
-app.use(express.static(frontendDir))
+const indexPath = path.join(frontendDir, "index.html")
+if (fs.existsSync(frontendDir)) app.use(express.static(frontendDir))
 app.get("/", (req, res) => {
-  res.sendFile(path.join(frontendDir, "index.html"))
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath)
+  } else {
+    res.status(200).send("<html><body><h1>Service is running</h1><p>Frontend not built. Please run npm run build.</p></body></html>")
+  }
 })
 
 app.use("/api/auth", authRoutes)
@@ -47,7 +53,11 @@ app.use("/api/public/books", publicBookRoutes)
 
 app.get("*", (req, res, next) => {
   if (req.path.startsWith("/api")) return next()
-  res.sendFile(path.join(frontendDir, "index.html"))
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath)
+  } else {
+    res.status(404).send("Not Found")
+  }
 })
 
 const port = Number(process.env.PORT || 5000)
