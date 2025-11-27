@@ -165,9 +165,7 @@ export default function AdminDashboard() {
                 {b.coverUrl && <img src={b.coverUrl} alt="" />}
                 <div className="book-meta">
                   <h3>{b.title}</h3>
-                  <p>{(b.description && String(b.description).trim()) ? b.description : "No description"}</p>
                   <p>{b.genre}</p>
-                  
                   <p>{b.publishedAt ? new Date(b.publishedAt).toLocaleDateString() : ""}</p>
                   <p>{(b.description && String(b.description).trim()) ? b.description : "No description"}</p>
                 </div>
