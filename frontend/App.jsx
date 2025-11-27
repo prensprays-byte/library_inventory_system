@@ -7,6 +7,7 @@ import Register from './pages/Register.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
 import Browse from './pages/Browse.jsx'
 import BookDetail from './pages/BookDetail.jsx'
+import Users from './pages/Users.jsx'
 import './App.css'
 
 function Protected({ children }) {
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/books/:id" element={<BookDetail />} />
           <Route path="/dashboard" element={<AdminRoute><DashboardRoute /></AdminRoute>} />
           <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+          <Route path="/admin/users" element={<AdminRoute><Users /></AdminRoute>} />
           
         </Routes>
       </BrowserRouter>

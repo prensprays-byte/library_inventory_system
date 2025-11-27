@@ -23,6 +23,7 @@ export default function Navbar() {
           {user && user.role === 'admin' && (
             <>
               <Link to="/admin">Dashboard</Link>
+              <Link to="/admin/users">Users</Link>
               <button className="ghost" onClick={onLogout}>Logout</button>
             </>
           )}

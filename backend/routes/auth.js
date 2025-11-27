@@ -4,9 +4,10 @@ import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 import User from "../models/User.js"
 import auth from "../middleware/auth.js"
+import { requireRole } from "../middleware/roles.js"
 
 const router = Router()
-const memoryUsers = []
+const memoryUsers = (globalThis.__memoryUsers ||= [])
 let memSeq = 1
 function memFindByEmail(email) {
   return memoryUsers.find((u) => u.email === email)
@@ -77,6 +78,8 @@ router.post("/login", async (req, res) => {
         }
       }
       if (!ok) return res.status(401).json({ error: "invalid_credentials" })
+      user.lastLoginAt = new Date()
+      await user.save()
       const secret = process.env.JWT_SECRET || "devsecret"
       const token = jwt.sign({ id: user._id, role: user.role, email: user.email, name: user.name }, secret, { expiresIn: "7d" })
       return res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } })
@@ -86,6 +89,7 @@ router.post("/login", async (req, res) => {
   if (!mem) return res.status(401).json({ error: "invalid_credentials" })
   const ok = await bcrypt.compare(password, mem.passwordHash)
   if (!ok) return res.status(401).json({ error: "invalid_credentials" })
+  mem.lastLoginAt = new Date().toISOString()
   const secret = process.env.JWT_SECRET || "devsecret"
   const token = jwt.sign({ id: mem.id, role: mem.role, email: mem.email, name: mem.name }, secret, { expiresIn: "7d" })
   res.json({ token, user: { id: mem.id, name: mem.name, email: mem.email, role: mem.role } })
@@ -102,6 +106,17 @@ router.get("/me", auth, async (req, res) => {
   const mem = memFindById(req.userId)
   if (!mem) return res.status(404).json({ error: "not_found" })
   res.json({ id: mem.id, name: mem.name, email: mem.email, role: mem.role })
+})
+
+router.get("/users", auth, requireRole("admin"), async (req, res) => {
+  try {
+    if (dbReady()) {
+      const list = await User.find({}, "name email role lastLoginAt createdAt").sort({ lastLoginAt: -1, createdAt: -1 })
+      return res.json(list.map((u) => ({ id: u._id, name: u.name, email: u.email, role: u.role, lastLoginAt: u.lastLoginAt, createdAt: u.createdAt })))
+    }
+  } catch { void 0 }
+  const list = memoryUsers.slice().map((u) => ({ id: u.id, name: u.name, email: u.email, role: u.role, lastLoginAt: u.lastLoginAt || null, createdAt: null }))
+  res.json(list)
 })
 
 export default router
