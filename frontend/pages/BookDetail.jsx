@@ -24,12 +24,18 @@ export default function BookDetail() {
   const goBack = () => {
     if (user?.role === 'admin') {
       nav('/admin')
-    } else {
-      nav('/browse')
+      return
     }
+
+    nav('/browse')
   }
 
   
+
+  const read = () => {
+    const el = mainRef.current
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   if (loading) return <div className="loading">Loading…</div>
   if (!book) return <div className="error">Not found</div>

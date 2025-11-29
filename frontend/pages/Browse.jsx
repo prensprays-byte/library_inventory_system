@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext.jsx"
 import client from "../api/client.js"
 
 export default function Browse() {
-  const { user } = useAuth()
+  const { user, token } = useAuth()
   const nav = useNavigate()
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
@@ -52,7 +52,7 @@ export default function Browse() {
           <input className="search-input" placeholder="Search by book title" value={q} onChange={(e) => setQ(e.target.value)} />
           <button className="search-btn" onClick={load}>Search</button>
         </div>
-        {user?.role === 'admin' && (
+        {token && user && user.role === 'admin' && (
           <Link className="btn primary" to="/admin">Add Book</Link>
         )}
       </div>
@@ -75,9 +75,8 @@ export default function Browse() {
                   )}
                   <div className="carousel-meta">
                     <div className="title">{b.title}</div>
-                    
+                    <div className="qty-row"><span className="qty-pill">Stacks: {typeof b.quantity === 'number' ? b.quantity : 0}</span></div>
                     <button className="btn primary" type="button" onClick={() => nav(`/books/${b._id || b.id}`)}>Read</button>
-                    
                   </div>
                 </div>
               ))}
@@ -98,6 +97,7 @@ export default function Browse() {
               <h3 style={{ margin: 0 }}>{selected.title}</h3>
               <p style={{ margin: '4px 0' }}>{selected.genre}</p>
               <p style={{ margin: '4px 0' }}>{selected.publishedAt ? new Date(selected.publishedAt).toLocaleDateString() : ""}</p>
+              <p style={{ margin: '4px 0', fontWeight: 600 }}>Stacks: {typeof selected.quantity === 'number' ? selected.quantity : 0}</p>
               <p style={{ margin: '8px 0' }}>{selected.description}</p>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 12 }}>

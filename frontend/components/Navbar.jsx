@@ -1,9 +1,11 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useAuth } from "../context/AuthContext.jsx"
 
 export default function Navbar() {
   const { user, logout } = useAuth()
   const nav = useNavigate()
+  const location = useLocation()
+  const onUsersPage = location.pathname.startsWith("/admin/users")
   const onLogout = () => {
     logout()
     nav("/")
@@ -11,7 +13,7 @@ export default function Navbar() {
   return (
     <header className="nav">
       <div className="nav-inner">
-        <Link to="/" className="brand">Library Inventory</Link>
+        <Link to="/" className="brand"><img src="/logo.webp" alt="" className="brand-logo" /> Library Inventory</Link>
         <nav className="nav-links">
           
           {!user && (
@@ -22,7 +24,7 @@ export default function Navbar() {
           )}
           {user && user.role === 'admin' && (
             <>
-              <Link to="/admin">Dashboard</Link>
+              {onUsersPage && <Link to="/admin">Back</Link>}
               <Link to="/admin/users">Users</Link>
               <button className="ghost" onClick={onLogout}>Logout</button>
             </>

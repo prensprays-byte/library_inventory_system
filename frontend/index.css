@@ -11,6 +11,7 @@ img { max-width: 100%; display: block }
 .nav:hover { box-shadow: 0 4px 20px rgba(176,123,89,0.15) }
 .nav-inner { max-width: 1100px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between }
 .brand { font-weight: 700; letter-spacing: 0.2px }
+.brand-logo { width: 26px; height: 26px; object-fit: cover; border-radius: 6px; margin-right: 8px; vertical-align: middle }
 .brand, .nav-links a, .nav-links button { -webkit-text-stroke: 0.3px rgba(27,24,18,0.25); text-shadow: -0.6px -0.6px 0 rgba(27,24,18,0.15), 0.6px -0.6px 0 rgba(27,24,18,0.15), -0.6px 0.6px 0 rgba(27,24,18,0.15), 0.6px 0.6px 0 rgba(27,24,18,0.15) }
 .nav-links { display: flex; gap: 12px; align-items: center }
 .nav-links a { padding: 8px 12px; border-radius: 8px; transition: transform .15s ease, box-shadow .15s ease, filter .15s ease, border-color .15s ease, background-color .15s ease }
@@ -150,6 +151,8 @@ img { max-width: 100%; display: block }
 .carousel-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px }
 .carousel-meta { display: grid; gap: 8px; margin-top: 8px }
 .carousel-meta .title { font-size: .95rem; height: 40px; overflow: hidden }
+.qty-row { display: flex; justify-content: space-between; align-items: center }
+.qty-pill { background: #fff5e6; border: 1px solid var(--border); color: var(--text); padding: 4px 8px; border-radius: 9999px; font-weight: 600 }
 .carousel-meta .btn.primary { transition: transform .15s ease, box-shadow .15s ease, filter .15s ease }
 .carousel-meta .btn.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(139,94,60,0.26); filter: brightness(1.08) }
 

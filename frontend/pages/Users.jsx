@@ -36,19 +36,6 @@ export default function Users() {
                     <div className="user-actions">
                       <span className="role-pill">{u.role}</span>
                       <button
-                        className="user-rename-btn"
-                        disabled={savingId === u.id}
-                        onClick={async () => {
-                          const next = window.prompt("Rename user", u.name)
-                          if (!next || !next.trim()) return
-                          try {
-                            setSavingId(u.id)
-                            await client.put(`/auth/users/${u.id}`, { name: next.trim() })
-                            setItems(items.map((it) => it.id === u.id ? { ...it, name: next.trim() } : it))
-                          } finally { setSavingId("") }
-                        }}
-                      >Rename</button>
-                      <button
                         className="user-delete-btn"
                         disabled={savingId === u.id}
                         onClick={async () => {
