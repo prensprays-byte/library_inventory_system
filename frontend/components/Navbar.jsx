@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <header className="nav">
       <div className="nav-inner">
-        <Link to="/" className="brand"><img src="/logo.webp" alt="" className="brand-logo" /> Library Inventory</Link>
+        <div className="brand"><img src="/logo.webp" alt="" className="brand-logo" /> Library Inventory</div>
         <nav className="nav-links">
           
           {!user && (
@@ -25,7 +25,7 @@ export default function Navbar() {
           {user && user.role === 'admin' && (
             <>
               {onUsersPage && <Link to="/admin">Back</Link>}
-              <Link to="/admin/users">Users</Link>
+              <Link to="/admin/users">Dashboard</Link>
               <button className="ghost" onClick={onLogout}>Logout</button>
             </>
           )}

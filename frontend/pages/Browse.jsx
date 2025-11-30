@@ -76,7 +76,7 @@ export default function Browse() {
                   <div className="carousel-meta">
                     <div className="title">{b.title}</div>
                     <div className="qty-row"><span className="qty-pill">Stacks: {typeof b.quantity === 'number' ? b.quantity : 0}</span></div>
-                    <button className="btn primary" type="button" onClick={() => nav(`/books/${b._id || b.id}`)}>Read</button>
+                    <button className="btn primary" type="button" onClick={() => nav(`/books/${b._id || b.id}`)}>See more..</button>
                   </div>
                 </div>
               ))}
