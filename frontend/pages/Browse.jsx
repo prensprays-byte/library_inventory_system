@@ -46,7 +46,7 @@ export default function Browse() {
   return (
     <div className="dashboard">
       <h2>Browse books</h2>
-      {/* stats removed from Browse; visible in dashboard only */}
+      {}
       <div className="grid">
         <div className="search-row">
           <input className="search-input" placeholder="Search by book title" value={q} onChange={(e) => setQ(e.target.value)} />
